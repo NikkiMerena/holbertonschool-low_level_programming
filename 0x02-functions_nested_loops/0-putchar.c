@@ -1,6 +1,7 @@
 #include "main.h"
+
 /**
-* main - Entry point
+* main - Spell Holberton
 *
 *
 * Return: Always 0 (Success)
