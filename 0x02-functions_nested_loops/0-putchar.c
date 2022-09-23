@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
-* main - Spell Holberton
+* main - Spell Putchar
 *
 *
 * Return: Always 0 (Success)
