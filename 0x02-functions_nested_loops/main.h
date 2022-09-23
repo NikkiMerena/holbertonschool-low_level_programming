@@ -6,7 +6,7 @@
  * Description: header file containting declarations
  * for all functions in 0x02-functions_nested_loops
  */
-#include <stdio>
+#include <stdio.h>
 #include <stdlib.h>
 
 int _putchar(char c);
