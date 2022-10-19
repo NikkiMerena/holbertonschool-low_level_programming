@@ -1,4 +1,4 @@
-#include "0-object_like_macro.h"
+#include "0-object_like_marco.h"
 #include "0-object_like_macro.h"
 #include <stdio.h>
 
@@ -7,6 +7,7 @@
  *
  * Return: Always 0.
  */
+
 int main(void)
 {
     int s;
