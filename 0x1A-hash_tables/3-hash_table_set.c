@@ -1,82 +1,44 @@
 #include "hash_tables.h"
 
 /**
- * hash_table_set - adds an element to table, checks first
- * @ht: the table
- * @key: the key
- * @value: the thing to add
- * Return: 1 on success, or 0 on fail
+ * hash_table_set - add elements to hash table
+ * @ht: hash table
+ * @key: key
+ * @value: value associeted to the key to add
+ * Return: 0(Fails) 1(Succes)
  */
-
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 {
-	/* declarations */
-	hash_node_t *new, *head;
-	unsigned long int index;
+	unsigned long int index, size;
+	hash_node_t *node, *temp;
 
-	/* check for table, key, value */
-	if (!(ht && key && *key && value))
+	if (!key || !value || !ht)
 		return (0);
-
-	index = key_index((const unsigned char *)key, ht->size);
-	head = ht->array[index];
-	new = NULL;
-
-	/* look for place to add */
-	while (head)
+	size = ht->size;
+	index = key_index((const unsigned char *)key, size);
+	temp = ht->array[index];
+	while (temp)
 	{
-		if (!strcmp(key, head->key))
-		{	/* value must be duped */
-			char *newval = strdup(value);
-			/* check for bad value */
-			if (!newval)
+		if (temp && strcmp(key, temp->key) == 0)
+		{
+			free(temp->value);
+			temp->value = strdup(value);
+			if (temp->value == NULL)
 				return (0);
-			free(head->value);
-			head->value = newval;
 			return (1);
 		}
-		head = head->next;
+		temp = temp->next;
 	}
-	new = make_node(key, value);
-	/* check fail */
-	if (!new)
+	node = malloc(sizeof(hash_node_t));
+	if (node == NULL)
 		return (0);
-	new->next = ht->array[index];
-	ht->array[index] = new;
+	node->key = strdup(key);
+	if (node->key == NULL)
+		return (0);
+	node->value = strdup(value);
+	if (node->value == NULL)
+		return (0);
+	node->next = ht->array[index];
+	ht->array[index] = node;
 	return (1);
-}
-
-/**
- * make_node - adds element to hash table/ chains
- * @key: where to add it
- * @value: what to add
- * Return: 1 on success, 0 otherwise
- */
-
-hash_node_t *make_node(const char *key, const char *value)
-{
-	/* declarations */
-	hash_node_t *new;
-
-	new = calloc(1, sizeof(hash_node_t));
-	/* if calloc fail */
-	if (!new)
-		return (0);
-	new->key = strdup(key);
-	/* if bad key */
-	if (!new->key)
-	{
-		free(new);
-		return (0);
-	}
-	new->value = strdup(value);
-	/* if bad thing */
-	if (!new->value)
-	{
-		free(new->key);
-		free(new);
-		return (0);
-	}
-	/* if all is well */
-	return (new);
 }
